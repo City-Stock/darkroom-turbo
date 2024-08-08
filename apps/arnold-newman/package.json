@@ -1,0 +1,38 @@
+{
+  "name": "@ess/arnold-newman",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "PORT=3002 next dev",
+    "dev:windows": "set PORT=3002 && next dev",
+    "build": "next build",
+    "start": "PORT=3002 next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.529.1",
+    "@aws-sdk/s3-request-presigner": "^3.533.0",
+    "@ess/zod": "workspace:*",
+    "@sendgrid/mail": "^7.7.0",
+    "firebase-admin": "^12.0.0",
+    "moment-timezone": "^0.5.45",
+    "next": "^13.5.6",
+    "nextjs-cors": "^2.1.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-native-web": "^0.18.4",
+    "twilio": "^4.18.1",
+    "uuid": "^9.0.1",
+    "vercel": "^33.5.3"
+  },
+  "devDependencies": {
+    "@ess/tsconfig": "workspace:*",
+    "@types/node": "^18.11.5",
+    "@types/react": "^18.2.29",
+    "@types/react-dom": "^18.2.14",
+    "@types/uuid": "^9.0.5",
+    "babel-plugin-react-native-web": "^0.18.4",
+    "eslint": "^8.19.0",
+    "typescript": "^5.2.2"
+  }
+}

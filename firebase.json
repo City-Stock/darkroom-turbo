@@ -1,0 +1,19 @@
+{
+  "functions": [
+    {
+      "source": "firebase-functions/minerva-mcgonagall",
+      "codebase": "minerva-mcgonagall",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ]
+    }
+  ],
+  "emulators": {
+    "functions": {
+      "port": 5001
+    }
+  }
+}

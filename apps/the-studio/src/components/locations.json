@@ -1,0 +1,228 @@
+{
+    "id": "L8KtFGacvThWy2R5SmKg",
+    "name": "ess sandbox",
+    "address": "8000 avalon blvd",
+    "city": "alpharetta",
+    "state": "GA",
+    "country": "US",
+    "postalCode": "30004",
+    "timezone": "Etc/GMT+12",
+    "firstName": "tom",
+    "lastName": "hundley",
+    "email": "thundley@essrocks.io",
+    "phone": "+14048228810",
+    "apiKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6Ikw4S3RGR2FjdlRoV3kyUjVTbUtnIiwiY29tcGFueV9pZCI6IklxZHg3NUtUSGNWSDlVTFFRYUd3IiwidmVyc2lvbiI6MSwiaWF0IjoxNjk0MTAzNzMxODI0LCJzdWIiOiJ1c2VyX2lkIn0.wVIeS20CNfD64vJANMxcBPnq3aW7BqmtbcPa3-fTM4s",
+    "business": {
+        "name": "ess sandbox",
+        "address": "8000 avalon blvd",
+        "city": "alpharetta",
+        "state": "GA",
+        "country": "US",
+        "postalCode": "30004",
+        "timezone": "Etc/GMT+12"
+    },
+    "social": {
+        "facebookUrl": "",
+        "googlePlus": "",
+        "linkedIn": "",
+        "foursquare": "",
+        "twitter": "",
+        "yelp": "",
+        "instagram": "",
+        "youtube": "",
+        "pinterest": "",
+        "blogRss": "",
+        "googlePlaceId": ""
+    },
+    "settings": {
+        "allowDuplicateContact": false,
+        "allowDuplicateOpportunity": false,
+        "allowFacebookNameMerge": false,
+        "disableContactTimezone": false
+    }
+}
+
+{
+    "id": "qatAx2MFpGRuvILakq8w",
+    "name": "13 Weeks To Freedom",
+    "address": "13475 Atlantic Blvd Unit 8 Suite 818",
+    "city": "Jacksonville",
+    "state": "Fl",
+    "country": "US",
+    "postalCode": "32225",
+    "website": "www.13weekstofreedom.com",
+    "timezone": "America/New_York",
+    "firstName": "Brian",
+    "lastName": "Rassi",
+    "email": "brian@ess.com",
+    "phone": "+18332496368",
+    "apiKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6InFhdEF4Mk1GcEdSdXZJTGFrcTh3IiwiY29tcGFueV9pZCI6IklxZHg3NUtUSGNWSDlVTFFRYUd3IiwidmVyc2lvbiI6MSwiaWF0IjoxNjkyMzgyMDk3OTc4LCJzdWIiOiJ1c2VyX2lkIn0.qdUM5dSzLK0SIExVlmbemj1TrD7oOHDC84vzyq_ly8k",
+    "business": {
+        "name": "13 Weeks To Freedom",
+        "address": "13475 Atlantic Blvd Unit 8 Suite 818",
+        "city": "Jacksonville",
+        "state": "Fl",
+        "country": "US",
+        "postalCode": "32225",
+        "website": "www.13weekstofreedom.com",
+        "timezone": "America/New_York"
+    },
+    "social": {
+        "facebookUrl": "",
+        "googlePlus": "",
+        "linkedIn": "",
+        "foursquare": "",
+        "twitter": "",
+        "yelp": "",
+        "instagram": "",
+        "youtube": "",
+        "pinterest": "",
+        "blogRss": "",
+        "googlePlaceId": ""
+    },
+    "settings": {
+        "allowDuplicateContact": false,
+        "allowDuplicateOpportunity": false,
+        "allowFacebookNameMerge": false,
+        "disableContactTimezone": false
+    }
+}
+
+{
+    "id": "b4SzdaEaD47fBHj3tjUZ",
+    "name": "All Star Van Lines",
+    "address": "7800 Preston Rd Suite 129",
+    "city": "Plano",
+    "state": "TX",
+    "country": "US",
+    "postalCode": "75024",
+    "website": "https://allstarvanlines.com/",
+    "timezone": "US/Central",
+    "firstName": "Arthur ",
+    "lastName": "Fomin",
+    "email": "info@allstarvanlines.com",
+    "phone": "+18882579147",
+    "apiKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6ImI0U3pkYUVhRDQ3ZkJIajN0alVaIiwiY29tcGFueV9pZCI6IklxZHg3NUtUSGNWSDlVTFFRYUd3IiwidmVyc2lvbiI6MSwiaWF0IjoxNjkzOTMzNzcwODY4LCJzdWIiOiJ1c2VyX2lkIn0.lxHyNSI5msb0Y3PuWoqeMpw4nGhPR0TpF_gtwHtIH7s",
+    "business": {
+        "name": "All Star Van Lines",
+        "address": "7800 Preston Rd Suite 129",
+        "city": "Plano",
+        "state": "TX",
+        "country": "US",
+        "postalCode": "75024",
+        "website": "https://allstarvanlines.com/",
+        "timezone": "US/Central"
+    },
+    "social": {
+        "facebookUrl": "",
+        "googlePlus": "",
+        "linkedIn": "",
+        "foursquare": "",
+        "twitter": "",
+        "yelp": "",
+        "instagram": "",
+        "youtube": "",
+        "pinterest": "",
+        "blogRss": "",
+        "googlePlaceId": ""
+    },
+    "settings": {
+        "allowDuplicateContact": false,
+        "allowDuplicateOpportunity": false,
+        "allowFacebookNameMerge": false,
+        "disableContactTimezone": false
+    }
+}
+
+{
+    "id": "GyOB22koqxP2X1S3dzOn",
+    "name": "ess",
+    "address": "13475 Atlantic Boulevard Unit 8 Suite 918",
+    "city": "Jacksonville",
+    "state": "FL",
+    "country": "US",
+    "postalCode": "32225",
+    "website": "http://www.ess.com/",
+    "timezone": "America/New_York",
+    "firstName": "Brian ",
+    "lastName": "Rassi",
+    "email": "info@ess.com",
+    "phone": "+18332496368",
+    "apiKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6Ikd5T0IyMmtvcXhQMlgxUzNkek9uIiwiY29tcGFueV9pZCI6IklxZHg3NUtUSGNWSDlVTFFRYUd3IiwidmVyc2lvbiI6MSwiaWF0IjoxNjkwNDg0MTA2Njc1LCJzdWIiOiJ1c2VyX2lkIn0.7euSUtNsnPvFp-JEJ48CJlQkceBPVcqr_h8XrMf28Pk",
+    "business": {
+        "name": "ess",
+        "email": "info@ess.com",
+        "address": "13475 Atlantic Boulevard Unit 8 Suite 918",
+        "city": "Jacksonville",
+        "state": "FL",
+        "country": "US",
+        "postalCode": "32225",
+        "website": "http://www.ess.com/",
+        "timezone": "America/New_York"
+    },
+    "social": {
+        "facebookUrl": "https://www.facebook.com/368114853299859",
+        "googlePlus": "",
+        "linkedIn": "",
+        "foursquare": "",
+        "twitter": "",
+        "yelp": "",
+        "instagram": "",
+        "youtube": "",
+        "pinterest": "",
+        "blogRss": "",
+        "googlePlaceId": "ChIJQ6nCHgdJ5IgRGZpvDbcX-sU"
+    },
+    "settings": {
+        "allowDuplicateContact": false,
+        "allowDuplicateOpportunity": false,
+        "allowFacebookNameMerge": true,
+        "disableContactTimezone": false
+    }
+}
+
+{
+    "id": "gC9yQxjaHkodx788WqO5",
+    "name": "Foodie Friends",
+    "address": "46 TALLWOOD RD",
+    "city": "JACKSONVILLE BEACH",
+    "state": "FL",
+    "country": "US",
+    "postalCode": "32250",
+    "website": "http://www.foodiefriends.com",
+    "timezone": "America/New_York",
+    "firstName": "Crystal",
+    "lastName": "Phillips",
+    "email": "crystalphillips@me.com",
+    "phone": "+19045340500",
+    "apiKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6ImdDOXlReGphSGtvZHg3ODhXcU81IiwiY29tcGFueV9pZCI6IklxZHg3NUtUSGNWSDlVTFFRYUd3IiwidmVyc2lvbiI6MSwiaWF0IjoxNjk0MDEyMzM5NzY1LCJzdWIiOiJ1c2VyX2lkIn0.qIwzmTM6NJbQ52_b6-6MmGD5QlIt7Q_rXLXmJkfE30w",
+    "business": {
+        "name": "Foodie Friends",
+        "address": "46 TALLWOOD RD",
+        "city": "JACKSONVILLE BEACH",
+        "state": "FL",
+        "country": "US",
+        "postalCode": "32250",
+        "website": "http://www.foodiefriends.com",
+        "timezone": "America/New_York"
+    },
+    "social": {
+        "facebookUrl": "",
+        "googlePlus": "",
+        "linkedIn": "",
+        "foursquare": "",
+        "twitter": "",
+        "yelp": "",
+        "instagram": "",
+        "youtube": "",
+        "pinterest": "",
+        "blogRss": "",
+        "googlePlaceId": ""
+    },
+    "settings": {
+        "allowDuplicateContact": false,
+        "allowDuplicateOpportunity": false,
+        "allowFacebookNameMerge": false,
+        "disableContactTimezone": false
+    }
+}

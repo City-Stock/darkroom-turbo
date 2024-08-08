@@ -1,0 +1,22 @@
+{
+  "name": "@ess/hooks",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.tsx",
+  "types": "src/index.tsx",
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint src/",
+    "dev": "tsup --watch",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@ess/tsconfig": "workspace:*",
+    "@types/react": "^18.2.29",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "react": "^18.2.0"
+  }
+}

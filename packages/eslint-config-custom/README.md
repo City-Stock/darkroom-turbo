@@ -1,0 +1,1 @@
+# `@ess/eslint-config-custom`

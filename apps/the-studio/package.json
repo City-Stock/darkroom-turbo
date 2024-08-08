@@ -1,0 +1,48 @@
+{
+  "name": "@ess/the-studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "PORT=3000 next dev",
+    "dev:windows": "set PORT=3000 && next dev",
+    "build": "next build",
+    "start": "PORT=3000 next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ess/firebase": "workspace:*",
+    "@ess/hooks": "workspace:*",
+    "@ess/utils": "workspace:*",
+    "@ess/zod": "workspace:*",
+    "@hookform/error-message": "^2.0.1",
+    "@hookform/resolvers": "^3.3.2",
+    "@uidotdev/usehooks": "^2.4.0",
+    "axios": "^1.5.1",
+    "encoding": "^0.1.13",
+    "firebase": "^10.7.1",
+    "flowbite": "^2.0.0",
+    "flowbite-react": "^0.6.4",
+    "next": "^13.5.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-firebase-hooks": "^5.1.1",
+    "react-hook-form": "^7.47.0",
+    "react-hot-toast": "^2.4.1",
+    "react-native-web": "^0.18.4",
+    "swr": "^2.2.4",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@ess/eslint-config-custom": "workspace:*",
+    "@ess/tailwind-config": "workspace:^",
+    "@ess/tsconfig": "workspace:*",
+    "@next/eslint-plugin-next": "^13.5.6",
+    "@types/node": "^18.11.5",
+    "@types/react": "^18.2.29",
+    "@types/react-dom": "^18.2.14",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2"
+  }
+}
