@@ -5,7 +5,8 @@ import * as logger from "firebase-functions/logger";
 export const startFileProcess = onDocumentUpdated(
   "assets/{assetId}",
   (event) => {
-    logger.info("Hello logs!", {structuredData: true});
+    logger.info(
+      `Hello logs ${process.env.BASE_API_URL}!`, {structuredData: true});
 
     if (!event.data || !event.data.after.exists) {
       logger.info("Ignoring because the document was deleted.");

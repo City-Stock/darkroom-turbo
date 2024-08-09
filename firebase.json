@@ -10,7 +10,7 @@
         "*.local"
       ],
       "codebase": "start-file-process",
-      "predeploy": "npm run build --prefix firebase-functions/start-file-process"
+      "predeploy": "dotenv -- npm run build --prefix firebase-functions/start-file-process"
     },
     {
       "source": "firebase-functions/hello-world",
@@ -22,7 +22,7 @@
         "*.local"
       ],
       "codebase": "hello-world",
-      "predeploy": "npm run build --prefix firebase-functions/hello-world"
+      "predeploy": "dotenv -- npm run build --prefix firebase-functions/hello-world"
     }
   ],
   "emulators": {
