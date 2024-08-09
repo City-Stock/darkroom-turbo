@@ -1,14 +1,28 @@
 {
   "functions": [
     {
-      "source": "firebase-functions/minerva-mcgonagall",
-      "codebase": "minerva-mcgonagall",
+      "source": "firebase-functions/start-file-process",
       "ignore": [
         "node_modules",
         ".git",
         "firebase-debug.log",
-        "firebase-debug.*.log"
-      ]
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "codebase": "start-file-process",
+      "predeploy": "npm run build --prefix firebase-functions/start-file-process"
+    },
+    {
+      "source": "firebase-functions/hello-world",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "codebase": "hello-world",
+      "predeploy": "npm run build --prefix firebase-functions/hello-world"
     }
   ],
   "emulators": {

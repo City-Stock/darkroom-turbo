@@ -24,8 +24,8 @@ export const UserSchema = z.object({
   customClaims: z.object({
     permissions: z.record(z.boolean()),
     userMetadata: z.object({
-      // partnerOrganizationId: z.string(),
-      // partnerOrganizationName: z.string(),
+      partnerOrganizationId: z.string(),
+      partnerOrganizationName: z.string(),
       roleId: z.string(),
       roleName: z.string(),
     }),
