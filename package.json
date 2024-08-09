@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "darkroom-turbo",
   "scripts": {
     "dev": "dotenv -- turbo run dev --concurrency 13",
     "dev:windows:arnold-newman": "dotenv -- turbo run dev:windows --filter arnold-newman",
@@ -7,7 +8,7 @@
     "dev:windows:admin": "dotenv -- turbo run dev:windows --filter alec-soth --filter the-studio",
     "start": "dotenv -- turbo run start",
     "build": "dotenv -- turbo build",
-    "deploy": "dotenv -- turbo run build --filter minerva-mcgonagall && turbo run deploy",
+    "deploy": "firebase deploy --only functions",
     "clean": "turbo clean && rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
     "nuke:nm": "turbo clean && sh remove-nm.sh"
