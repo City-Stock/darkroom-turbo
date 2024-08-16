@@ -2,4 +2,11 @@
   "extends": "@ess/tsconfig/base.json",
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"],
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+  },
 }
