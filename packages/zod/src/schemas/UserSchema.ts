@@ -1,14 +1,5 @@
 import { z } from "zod";
 
-type Payload = {
-  displayName: string;
-  phoneNumber: string;
-  email: string;
-  partnerOrganizationId: string;
-  partnerOrganizationName: string;
-  permissions: { [key: string]: boolean };
-};
-
 export const UserSchema = z.object({
   uid: z.string(),
   displayName: z.string(),
@@ -24,8 +15,8 @@ export const UserSchema = z.object({
   customClaims: z.object({
     permissions: z.record(z.boolean()),
     userMetadata: z.object({
-      // partnerOrganizationId: z.string(),
-      // partnerOrganizationName: z.string(),
+      partnerOrganizationId: z.string(),
+      partnerOrganizationName: z.string(),
       roleId: z.string(),
       roleName: z.string(),
     }),

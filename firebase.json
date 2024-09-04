@@ -1,19 +1,52 @@
 {
   "functions": [
     {
-      "source": "firebase-functions/minerva-mcgonagall",
-      "codebase": "minerva-mcgonagall",
+      "source": "firebase-functions/watermark-source-image",
       "ignore": [
         "node_modules",
         ".git",
         "firebase-debug.log",
-        "firebase-debug.*.log"
-      ]
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "codebase": "watermark-source-image",
+      "predeploy": "dotenv -- npm run build --prefix firebase-functions/watermark-source-image"
+    },
+    {
+      "source": "firebase-functions/hello-world",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "codebase": "hello-world",
+      "predeploy": "dotenv -- npm run build --prefix firebase-functions/hello-world"
+    },
+    {
+      "source": "firebase-functions/create-shopify-product",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "codebase": "create-shopify-product",
+      "predeploy": "dotenv -- npm run build --prefix firebase-functions/create-shopify-product"
+    },
+    {
+      "source": "firebase-functions/create-dda-linkage",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "codebase": "create-dda-linkage",
+      "predeploy": "dotenv -- npm run build --prefix firebase-functions/create-dda-linkage"
     }
-  ],
-  "emulators": {
-    "functions": {
-      "port": 5001
-    }
-  }
+  ]
 }

@@ -1,7 +1,14 @@
 {
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": false,
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
   "eslint.workingDirectories": [
     {
       "mode": "auto"
+    },
+    { 
+      "directory": "firebase-functions/*", 
+      "changeProcessCWD": true 
     }
   ]
 }
