@@ -23,9 +23,9 @@ const getUsers = async (
   try {
     const usersRes = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/users?${
-        emailQuery + 
-        nameQuery + 
-        // partnerOrganizationNameQuery + 
+        emailQuery +
+        nameQuery +
+        // partnerOrganizationNameQuery +
         phoneNumberQuery
       }`,
       {

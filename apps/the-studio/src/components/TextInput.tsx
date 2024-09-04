@@ -21,9 +21,15 @@ const TextInput: FC<Props> = ({ label, placeHolder, fieldName }) => {
         type="text"
         placeholder={placeHolder}
         {...register(fieldName)}
-        className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+        className="w-full rounded border-[1.5px] text-black placeholder-[#000000]/50 border-stroke border-[#cccccccc] bg-white py-3 px-2 outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
       />
-      <ErrorMessage errors={errors} name={fieldName} render={({ message }) => <p className="text-sm text-danger pl-2">{message}</p>} />
+      <ErrorMessage
+        errors={errors}
+        name={fieldName}
+        render={({ message }) => (
+          <p className="text-sm text-danger pl-2">{message}</p>
+        )}
+      />
     </div>
   );
 };
