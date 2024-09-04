@@ -35,9 +35,6 @@ export const createDdaLinkage = onDocumentUpdated(
           return result;
         };
 
-
-
-        
         const gid = data?.shopifyId.replace("gid://shopify/Product/", "");
         logger.info("DDA", {structuredData: true, gid, apiKey: process.env.DDA_API_KEY});
         const checkLinkResp = await fetchDda();
