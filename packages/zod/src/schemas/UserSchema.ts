@@ -1,14 +1,5 @@
 import { z } from "zod";
 
-type Payload = {
-  displayName: string;
-  phoneNumber: string;
-  email: string;
-  partnerOrganizationId: string;
-  partnerOrganizationName: string;
-  permissions: { [key: string]: boolean };
-};
-
 export const UserSchema = z.object({
   uid: z.string(),
   displayName: z.string(),
