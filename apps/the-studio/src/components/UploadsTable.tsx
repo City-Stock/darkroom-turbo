@@ -63,6 +63,7 @@ const UploadsTable = () => {
                   cardContent="Uploads"
                   cardTitle={upload.productName}
                   name={upload.contributorName}
+                  salesInfo={upload.salesInfo}
                   role="Contributor"
                   cardImageSrc={upload.sourceFileRef}
                   status={upload.approvalStatus}

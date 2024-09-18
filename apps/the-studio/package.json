@@ -21,6 +21,7 @@
     "classnames": "^2.5.1",
     "encoding": "^0.1.13",
     "firebase": "^10.7.1",
+    "firebase-admin": "^12.5.0",
     "flowbite": "^2.0.0",
     "flowbite-react": "^0.6.4",
     "next": "^13.5.6",
