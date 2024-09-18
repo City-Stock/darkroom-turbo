@@ -3,7 +3,6 @@ import React, { FC, Suspense, useState } from "react";
 import Link from "next/link";
 import UsersTable from "./UsersTable";
 import CreateUserForm from "./Forms/CreateUserForm";
-import EditUserForm from "./Forms/EditUserForm";
 import { SWRConfig } from "swr";
 import UsersTablePayouts from "./UsersTablePayouts";
 

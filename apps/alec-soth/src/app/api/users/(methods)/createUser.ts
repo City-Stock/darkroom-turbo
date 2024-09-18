@@ -19,6 +19,8 @@ type Context = {
 export async function createUser(req: NextRequest, context: Context) {
   const payload = (await req.json()) as CreateUserModel;
 
+  console.log(payload);
+
   const validation = CreateUserSchema.safeParse(payload);
 
   if (validation.success === false)
@@ -27,7 +29,7 @@ export async function createUser(req: NextRequest, context: Context) {
       { status: 400 }
     );
 
-  const { displayName, partnerOrganizationId, roleId, phoneNumber, email } =
+  const { displayName, roleId, phoneNumber, email } =
     validation.data;
 
   try {
@@ -43,17 +45,7 @@ export async function createUser(req: NextRequest, context: Context) {
       );
     const roleData = roleSnapshot.data() as RoleModel;
 
-    const partnerOrgSnapshot = await getFirestore()
-      .collection("partnerOrganizations")
-      .doc(partnerOrganizationId)
-      .get();
 
-    if (!partnerOrgSnapshot.exists)
-      return NextResponse.json(
-        { error: [{ message: "Partner Organization doesnt exist" }] },
-        { status: 400 }
-      );
-    const parnterOrgData = partnerOrgSnapshot.data() as any;
 
     // TODO: Partner org model
     const permissions: { [permission: string]: boolean } = {};
@@ -75,8 +67,6 @@ export async function createUser(req: NextRequest, context: Context) {
     await getAuth().setCustomUserClaims(user.uid, {
       permissions,
       userMetadata: {
-        partnerOrganizationId,
-        partnerOrganizationName: parnterOrgData.name,
         roleId,
         roleName: roleData.name,
       },

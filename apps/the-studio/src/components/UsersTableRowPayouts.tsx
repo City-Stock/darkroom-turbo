@@ -51,6 +51,9 @@ const UserTableRowPayouts: FC<Props> = ({ user }) => {
         <p className="text-black dark:text-white">{user?.email ?? ""}</p>
       </td>
       <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+        <p className="text-black dark:text-white">{user?.phoneNumber ?? ""}</p>
+      </td>
+      <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
         <p className="text-black dark:text-white">
           {userData?.currentPayoutTotal && userData?.currentPayoutTotal > 0
             ? "Pending Payout"

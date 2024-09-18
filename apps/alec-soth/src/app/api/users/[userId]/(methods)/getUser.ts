@@ -37,6 +37,8 @@ export async function getUser(req: NextRequest, context: Context) {
       { status: 401 }
     );
 
+    console.log(userId, idToken);
+
   // Verify Token & decode
   try {
     const decodedToken = await getAuth().verifyIdToken(idToken);
@@ -62,10 +64,10 @@ export async function getUser(req: NextRequest, context: Context) {
   try {
     const user = await getAuth().getUser(userId);
 
-    const parsedUser = UserSchema.parse(user);
+    // const parsedUser = UserSchema.parse(user);
 
     return NextResponse.json(
-      { data: [parsedUser], page: 0, errors: [] },
+      { data: [user], page: 0, errors: [] },
       { status: 200 }
     );
   } catch (error: any) {

@@ -30,33 +30,6 @@ const EditUserForm = () => {
   const { userId } = useParams();
   const { currentUserIdToken } = useContext(AuthContext);
 
-  // console.log(userId.toString().toLocaleLowerCase(), "LOOK");
-  // const [user, setUser] = useState<UserModel | null>(null);
-
-  // const getUser = useCallback(async () => {
-  //   try {
-  //     const response = await fetch(`/api/users/${userId}`, {
-  //       method: "GET",
-  //       headers: {
-  //         authorization: `Bearer ${currentUserIdToken}`,
-  //       },
-  //     });
-
-  //     const data = await response.json();
-  //     const validateDTO = createDtoSchema(UserSchema).safeParse(data);
-
-  //     if (!validateDTO.success) throw new Error(validateDTO.error.toString());
-  //     if (!response.ok && validateDTO.data.errors) throw new Error(validateDTO.data.errors[0].message);
-  //     if (!validateDTO.data.data.length) throw new Error("User not found");
-
-  //     setUser(validateDTO.data.data[0]);
-  //     return validateDTO.data.data[0];
-  //   } catch (error) {
-  //     console.log(error);
-  //     alert("Failed to fetch user");
-  //   }
-  // }, [currentUserIdToken, userId]);
-
   const getUserDefaultValues = async (): Promise<EditUserModel> => {
     try {
       const response = await fetch(
@@ -71,22 +44,21 @@ const EditUserForm = () => {
 
       const data = await response.json();
 
-      const validateDTO = createDtoSchema(UserSchema).safeParse(data);
+      // const validateDTO = createDtoSchema(UserSchema).safeParse(data);
 
-      if (!validateDTO.success) throw new Error(validateDTO.error.toString());
-      if (!response.ok && validateDTO.data.errors)
-        throw new Error(validateDTO.data.errors[0].message);
-      if (!validateDTO.data.data.length) throw new Error("User not found");
+      // if (!validateDTO.success) throw new Error(validateDTO.error.toString());
+      // if (!response.ok && validateDTO.data.errors)
+      //   throw new Error(validateDTO.data.errors[0].message);
+      // if (!validateDTO.data.data.length) throw new Error("User not found");
 
-      const { displayName, phoneNumber, email, customClaims } =
-        validateDTO.data.data[0];
+      const { displayName, phoneNumber, email, customClaims } = data.data[0];
 
       return {
         displayName,
         phoneNumber,
         email,
-        partnerOrganizationId: customClaims.userMetadata.partnerOrganizationId,
         roleId: customClaims.userMetadata.roleId,
+        roleName: customClaims.userMetadata.roleName,
       };
     } catch (error) {
       console.log(error);
@@ -95,8 +67,8 @@ const EditUserForm = () => {
         displayName: "",
         phoneNumber: "",
         email: "",
-        partnerOrganizationId: "",
         roleId: "",
+        roleName: "",
       };
     }
   };
@@ -135,6 +107,7 @@ const EditUserForm = () => {
   };
 
   const onSubmit = async (data: CreateUserModel) => {
+    console.log(data);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/users/${userId}`,
       {
@@ -147,12 +120,6 @@ const EditUserForm = () => {
     if (!response.ok) {
       throw new Error(responseData.errors[0].message);
     }
-
-    const validateDTO = createDtoSchema(EditUserSchema).safeParse(responseData);
-    if (!validateDTO.success) throw new Error(validateDTO.error.toString());
-
-    if (!response.ok && validateDTO.data.errors)
-      throw new Error(validateDTO.data.errors[0].message);
 
     return responseData;
   };
@@ -208,19 +175,6 @@ const EditUserForm = () => {
                 fieldName="phoneNumber"
               />
             </div>
-
-            <div className="mb-4.5">
-              <SelectOrgDropDown
-                label="Partner Organization"
-                placeHolder={
-                  !methods.getValues("partnerOrganizationId")
-                    ? "Loading..."
-                    : "Select a Partner Organization"
-                }
-                fieldName="partnerOrganizationId"
-              />
-            </div>
-
             <div className="mb-4.5">
               <SelectRoleDropDown
                 label="Role"
