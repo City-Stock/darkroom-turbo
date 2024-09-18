@@ -1,10 +1,15 @@
-import React from 'react';
+import React from "react";
 
 type DataProps = {
   totalContacts: number;
-}
+  userSalesStats?: {
+    totalSales?: number;
+    currentPayoutTotal?: number;
+    payoutTotal?: number;
+  };
+};
 
-const DataStats: React.FC<DataProps> = ({ totalContacts }) => {
+const DataStats: React.FC<DataProps> = ({ totalContacts, userSalesStats }) => {
   return (
     <div>
       <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -50,9 +55,9 @@ const DataStats: React.FC<DataProps> = ({ totalContacts }) => {
           <div className="flex items-end justify-between">
             <div>
               <h3 className="mb-4 text-title-lg font-bold text-black dark:text-white">
-                {totalContacts}
+                {userSalesStats?.totalSales}
               </h3>
-              <p className="font-medium">Total Leads</p>
+              <p className="font-medium">Total Sales</p>
               <span className="mt-2 flex items-center gap-2">
                 <span className="flex items-center gap-1 rounded-md bg-meta-3 p-1 text-xs font-medium text-white">
                   <svg
@@ -107,9 +112,9 @@ const DataStats: React.FC<DataProps> = ({ totalContacts }) => {
           <div className="flex items-end justify-between">
             <div>
               <h3 className="mb-4 text-title-lg font-bold text-black dark:text-white">
-                745
+                {`$ ${userSalesStats?.currentPayoutTotal?.toFixed(2)}`}
               </h3>
-              <p className="font-medium">Contracts Signed</p>
+              <p className="font-medium">Current Payout Total</p>
               <span className="mt-2 flex items-center gap-2">
                 <span className="flex items-center gap-1 rounded-md bg-red p-1 text-xs font-medium text-white">
                   <svg
@@ -164,9 +169,9 @@ const DataStats: React.FC<DataProps> = ({ totalContacts }) => {
           <div className="flex items-end justify-between">
             <div>
               <h3 className="mb-4 text-title-lg font-bold text-black dark:text-white">
-                512
+                {`$ ${userSalesStats?.payoutTotal?.toFixed(2)}`}
               </h3>
-              <p className="font-medium">Invoice Sent</p>
+              <p className="font-medium">Total Payouts</p>
               <span className="mt-2 flex items-center gap-2">
                 <span className="flex items-center gap-1 rounded-md bg-meta-3 p-1 text-xs font-medium text-white">
                   <svg

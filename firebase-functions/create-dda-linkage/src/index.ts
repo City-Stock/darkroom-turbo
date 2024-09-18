@@ -9,7 +9,7 @@ import poll from "./helpers/poll";
 admin.initializeApp();
 export const createDdaLinkage = onDocumentUpdated(
   {
-    document: "dev-assets/{assetId}",
+    document: "uploads/{assetId}",
     memory: "512MiB",
   },
   async (event) => {
@@ -53,7 +53,7 @@ export const createDdaLinkage = onDocumentUpdated(
         logger.info("Product found! Uploading Asset to S3", {structuredData: true, data});
 
         const bucket = admin.storage().bucket(process.env.BUCKET_NAME);
-        const sourceFilePath = `sources/${data.sourceFileName}`;
+        const sourceFilePath = `uploads/${data.sourceFileName}`;
         const file = bucket.file(sourceFilePath);
         const [fileBuffer] = await file.download();
         const baseUrl = process.env.DDA_API_URL;

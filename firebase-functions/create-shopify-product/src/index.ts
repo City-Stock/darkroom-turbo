@@ -10,7 +10,7 @@ admin.initializeApp();
 
 export const createShopifyProduct = onDocumentUpdated(
   {
-    document: "dev-assets/{assetId}",
+    document: "uploads/{assetId}",
   },
   async (event) => {
     if (!event.data || !event.data.after.exists) {
@@ -20,13 +20,13 @@ export const createShopifyProduct = onDocumentUpdated(
 
     const data = event.data.after.data();
 
-    if (data.isWatermarked && !data.isShopify && data.sourceFileType === "image") {
+    if (data.isWatermarked && !data.isShopify && data.sourceFileType.includes("image")) {
       logger.info("Creating Shopify Product", {structuredData: true, data});
 
       try {
         const payload = {
           product: {
-            title: data?.title,
+            title: data?.productName,
             body_html: "<strong></strong>",
             vendor: "CityStock",
             product_type: data?.sourceFileType === "image" ? "Image - City" : "Video - City",
@@ -83,16 +83,11 @@ export const createShopifyProduct = onDocumentUpdated(
         logger.error("Error creating shopify product", {structuredData: true, error});
       }
     }
-    if (data.isWatermarked && !data.isShopify && data.sourceFileType === "video") {
+    if (data.isWatermarked && !data.isShopify && data.sourceFileType.includes("video")) {
       logger.info("Creating Shopify Product", {structuredData: true, data});
       try {
-        const headResponse = await axios.head(data.publicWatermarkedUrl);
-        const contentLength = parseInt(headResponse.headers["content-length"], 10);
         const response = await axios.get(data.publicWatermarkedUrl, {
           responseType: "stream",
-          headers: {
-            Range: `bytes=${0}-${contentLength - 1}`,
-          },
         });
 
 
@@ -112,7 +107,7 @@ export const createShopifyProduct = onDocumentUpdated(
         const publishResponse = await createVideoShopifyProduct({
           shopifyExternalVideoUrl: testUrl,
           vendor: "CityStock",
-          title: data?.title,
+          title: data?.productName,
           tags: data?.tags,
           uniqueId: "123456",
         });

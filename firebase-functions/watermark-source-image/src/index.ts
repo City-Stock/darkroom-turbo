@@ -29,7 +29,7 @@ const projectId = "citystock-darkroom-dev";
 
 export const watermarkSourceImage = onDocumentUpdated(
   {
-    document: "dev-assets/{assetId}",
+    document: "uploads/{assetId}",
     memory: "512MiB",
   },
   async (event) => {
@@ -41,12 +41,12 @@ export const watermarkSourceImage = onDocumentUpdated(
 
     const data = event.data.after.data();
 
-    if (data.approvalStatus.toLowerCase() === "approved" && !data.isWatermarked && data.sourceFileType === "image") {
+    if (data.approvalStatus.toLowerCase() === "approved" && !data.isWatermarked && data.sourceFileType.includes("image")) {
       logger.info("Approved Document Data", {structuredData: true, data});
 
       try {
         const fileName = data.sourceFileName;
-        const originalFilePath = `sources/${fileName}`;
+        const originalFilePath = `uploads/${fileName}`;
         const bucket = admin.storage().bucket("gs://citystock-darkroom-dev.appspot.com");
         const [originalFileBuffer] = await bucket.file(originalFilePath).download();
         const [waterMarkImageBuffer] = await bucket.file("watermarks/watermark-citystock.png").download();
@@ -61,8 +61,20 @@ export const watermarkSourceImage = onDocumentUpdated(
           fit: sharp.fit.inside,
           withoutEnlargement: true}).toBuffer();
 
+        // Resize the watermark to fit within the dimensions of the base image
+        const watermarkImage = sharp(waterMarkImageBuffer);
+        const watermarkMetadata = await watermarkImage.metadata();
+        const maxWidth = Math.floor(baseMetadata.width / 2);
+        const maxHeight = Math.floor(baseMetadata.height / 2);
+        const resizedWatermarkImage = await watermarkImage.resize({
+          width: Math.min(watermarkMetadata.width || maxWidth, maxWidth),
+          height: Math.min(watermarkMetadata.height || maxHeight, maxHeight),
+          fit: sharp.fit.inside,
+          withoutEnlargement: true,
+        }).toBuffer();
+
         const watermarkedImage = await sharp(resizedImage)
-          .composite([{input: waterMarkImageBuffer}])
+          .composite([{input: resizedWatermarkImage}])
           .toBuffer();
         const watermarkedFilePath = `watermarked/${fileName}`;
         const watermarkedFile = bucket.file(watermarkedFilePath);
@@ -80,7 +92,7 @@ export const watermarkSourceImage = onDocumentUpdated(
         logger.error("Error applying watermark", {structuredData: true, error});
       }
     }
-    if (data.approvalStatus.toLowerCase() === "approved" && !data.isWatermarked && data.sourceFileType === "video") {
+    if (data.approvalStatus.toLowerCase() === "approved" && !data.isWatermarked && data.sourceFileType.includes("video")) {
       logger.info("Watermarking Video", {structuredData: true, data, creds: googleCredentials});
       const location = "us-east4";
       try {

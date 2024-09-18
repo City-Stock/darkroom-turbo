@@ -5,6 +5,7 @@ import UsersTable from "./UsersTable";
 import CreateUserForm from "./Forms/CreateUserForm";
 import EditUserForm from "./Forms/EditUserForm";
 import { SWRConfig } from "swr";
+import UsersTablePayouts from "./UsersTablePayouts";
 
 type Props = {
   searchParams?: { [key: string]: string | undefined };
@@ -34,6 +35,14 @@ const UsersPageNavTabs: FC<Props> = ({ searchParams }) => {
         >
           Add User
         </Link>
+        <Link
+          href="/users?tab=payouts"
+          className={`border-b-2 py-4 text-sm font-medium hover:text-primary md:text-base ${
+            openTab === "payouts" ? activeClasses : inactiveClasses
+          }`}
+        >
+          Payouts
+        </Link>
       </div>
 
       <SWRConfig value={{ suspense: true }}>
@@ -51,6 +60,13 @@ const UsersPageNavTabs: FC<Props> = ({ searchParams }) => {
               }`}
             >
               <UsersTable searchParams={searchParams} />
+            </div>
+            <div
+              className={`leading-relaxed ${
+                openTab === "payouts" ? "block" : "hidden"
+              }`}
+            >
+              <UsersTablePayouts searchParams={searchParams} />
             </div>
             <div
               className={`leading-relaxed ${

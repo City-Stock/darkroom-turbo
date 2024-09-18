@@ -1,5 +1,5 @@
 "use client";
-import { db } from "@/firebase/clientFirebaseInstance";
+import { auth, db } from "@/firebase/clientFirebaseInstance";
 import {
   DocumentData,
   DocumentReference,
@@ -8,11 +8,17 @@ import {
   SnapshotOptions,
   WithFieldValue,
   collection,
+  doc,
   query,
 } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import React, { Suspense, useEffect, useState } from "react";
+import {
+  useCollectionData,
+  useDocumentData,
+} from "react-firebase-hooks/firestore";
 import DataStats from "./DataStats";
+import useSWR, { SWRConfig } from "swr";
+import { Auth } from "firebase-admin/lib/auth/auth";
 
 type MetaData = {
   total: number;
@@ -39,7 +45,10 @@ const leadConverter: FirestoreDataConverter<Contact> = {
   toFirestore(contact: WithFieldValue<Contact>): DocumentData {
     return { firstName: contact.firstName };
   },
-  fromFirestore(snapshot: QueryDocumentSnapshot, options: SnapshotOptions): Contact {
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): Contact {
     const data = snapshot.data(options);
     return {
       id: snapshot.id,
@@ -56,31 +65,40 @@ const leadConverter: FirestoreDataConverter<Contact> = {
 };
 
 const Dashboard: React.FC = () => {
-  const allLeadsQuery = query(collection(db, "leads")).withConverter(leadConverter);
+  const allLeadsQuery = query(collection(db, "leads")).withConverter(
+    leadConverter
+  );
+  const { currentUser } = auth;
   const [allLeads, loading, error, snapshot] = useCollectionData(allLeadsQuery);
 
+  const userRef = doc(db, "user-sales-stats", currentUser?.uid as string);
+  const [test, loadingTest] = useDocumentData(userRef);
+
+  if (loadingTest || loading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-white dark:bg-black">
+        <div className="flex h-screen items-center justify-center bg-white dark:bg-black">
+          <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <DataStats totalContacts={allLeads?.length || 0} />
-
-      {/* <div className="mt-7.5 grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
-        <div className="col-span-12 xl:col-span-7">
-          <ChartSeven />
-        </div>
-
-        <div className="col-span-12 xl:col-span-5">
-          <ChartEight />
-        </div>
-
-        <LeadsReport />
-
-        <div className="col-span-12 xl:col-span-5">
-          <ChartNine />
-        </div>
-
-        <ToDoList />
-      </div> */}
-    </>
+    <SWRConfig value={{ suspense: true }}>
+      <Suspense
+        fallback={
+          <div className="flex h-screen items-center justify-center bg-white dark:bg-black">
+            <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></div>
+          </div>
+        }
+      >
+        <DataStats
+          userSalesStats={test}
+          totalContacts={allLeads?.length || 0}
+        />
+      </Suspense>
+    </SWRConfig>
   );
 };
 

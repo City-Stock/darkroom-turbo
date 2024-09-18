@@ -42,12 +42,16 @@ const createUploadRequest = async (data: any) => {
           productName: data.productName.toLowerCase(),
           s3ImageRef: "",
           shopifyId: "",
+          publicWatermarkedUrl: "",
           sourceFileName: data.file.name,
           sourceFileRef: data.file.name,
+          sourceFileSize: data.file.size,
           sourceFileType: data.file.type,
           state: data.state.value.toLowerCase(),
           tags: data.tags.map((tag: any) => tag.value.toLowerCase()),
           uploadUserId: user.uid,
+          isDda: false,
+          isShopify: false,
         };
 
         await uploadBytes(storageRef, data.file);

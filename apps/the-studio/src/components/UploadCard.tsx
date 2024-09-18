@@ -15,6 +15,10 @@ interface CardItemProps {
   cardContent: string;
   status?: string;
   docId?: string;
+  salesInfo: {
+    qtySold: number;
+    totalSales: number;
+  };
   location: {
     city: string;
     state: string;
@@ -33,6 +37,7 @@ const UploadCard: React.FC<CardItemProps> = ({
   docId,
   location,
   fileType,
+  salesInfo,
 }) => {
   const [cardImage, setCardImage] = useState<string | null>(null);
   const [isActive, setIsActive] = useState<string | null>(null); // Track the active docId
@@ -153,6 +158,23 @@ const UploadCard: React.FC<CardItemProps> = ({
             )}
           >
             {status}
+          </div>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={classNames(
+              "absolute capitalize bottom-4 right-4 text-white text-xs font-medium px-2 py-1 rounded-md bg-primary"
+            )}
+          >
+            Total Sales: {salesInfo?.qtySold ? salesInfo.qtySold : 0}
+          </div>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={classNames(
+              "absolute capitalize bottom-12 right-4 text-white text-xs font-medium px-2 py-1 rounded-md bg-primary"
+            )}
+          >
+            Total Revenue: $
+            {salesInfo?.totalSales ? salesInfo.totalSales.toFixed(2) : `0.00`}
           </div>
         </div>
         <div className="flex items-center gap-3 py-2">
