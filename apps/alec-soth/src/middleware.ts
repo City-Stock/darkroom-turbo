@@ -29,6 +29,7 @@ export async function middleware(request: NextRequest) {
 
   // Allowed origins check
   const origin = request.headers.get('origin') ?? '';
+  console.log(origin, corsOptions.allowedOrigins);
   if (corsOptions.allowedOrigins.includes('*') || corsOptions.allowedOrigins.includes(origin)) {
     response.headers.set('Access-Control-Allow-Origin', origin);
   }

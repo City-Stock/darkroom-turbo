@@ -1,50 +1,80 @@
-import { FC } from "react";
+"use client";
+import { FC, useEffect, useState } from "react";
 import QueryFilter from "./QueryFilter";
 import UserTableRow from "./UsersTableRow";
-import { getAuth } from "firebase/auth";
-import { app, db } from "@/firebase/clientFirebaseInstance";
-import { collection, getDocs } from "firebase/firestore";
 
 type Props = {
   searchParams?: { [key: string]: string | undefined };
 };
 
-const fetchUsers = async () => {
+const getUsers = async (
+  searchParams: { [key: string]: string | undefined } | undefined
+) => {
+  const emailQuery = searchParams?.emailAddress
+    ? `emailAddress=${searchParams.emailAddress}`
+    : "";
+  const nameQuery = searchParams?.displayName
+    ? `displayName=${searchParams.displayName}`
+    : "";
+  const phoneNumberQuery = searchParams?.phone
+    ? `phone=${searchParams.phone}`
+    : "";
   try {
-    const res = await fetch(`http://localhost:3000/api/getUsers`);
-    if (!res.ok) {
-      return [];
+    const usersRes = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/users?${
+        emailQuery + nameQuery + phoneNumberQuery
+      }`,
+      {
+        next:
+          !emailQuery && !nameQuery && !phoneNumberQuery
+            ? { revalidate: 60 }
+            : undefined,
+        cache:
+          emailQuery || nameQuery || phoneNumberQuery ? "no-cache" : undefined,
+      }
+    );
+
+    if (!usersRes.ok) {
+      return {
+        data: [],
+        error: usersRes.status,
+        page: 0,
+      };
     }
-    const users = await res.json();
-    return users;
+
+    return (await usersRes.json()) as {
+      data: any[];
+      page: number;
+      error?: string;
+    };
   } catch (error) {
-    console.log(error);
-    return [];
+    console.log();
+    return {
+      data: [],
+      error: error.messsage,
+      page: 0,
+    };
   }
 };
 
-const UsersTable: FC<Props> = async ({ searchParams }) => {
-  const usersDTO = await fetchUsers();
+const UsersTable: FC<Props> = ({ searchParams }) => {
+  const [state, setState] = useState<any>(null);
+  useEffect(() => {
+    const fetchUserEffect = async () => {
+      const users = await getUsers(searchParams);
 
-  const filteredUsers = usersDTO.filter((user) => {
-    const matchesDisplayName = searchParams?.displayName
-      ? user?.displayName
-          ?.toLowerCase()
-          ?.includes(searchParams?.displayName?.toLowerCase())
-      : true;
-    const matchesEmail = searchParams?.email
-      ? user.email.toLowerCase().includes(searchParams.email.toLowerCase())
-      : true;
-
-    return matchesEmail && matchesDisplayName;
-  });
+      setState(users);
+    };
+    fetchUserEffect();
+  }, [searchParams]);
 
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
         <div className="mb-4 grid grid-cols-4 gap-6 ">
           <QueryFilter label="Display Name" queryName="displayName" />
-          <QueryFilter label="Email" queryName="email" />
+          <QueryFilter label="Email" queryName="emailAddress" />
+          <QueryFilter label="Phone" queryName="phone" />
         </div>
         <table className="w-full table-auto">
           <thead>
@@ -56,16 +86,18 @@ const UsersTable: FC<Props> = async ({ searchParams }) => {
                 Email
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                Phone Number
+              </th>
+              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                 Role
               </th>
-
               <th className="py-4 px-4 font-medium text-black dark:text-white text-center">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody>
-            {filteredUsers?.map((user, key) => (
+            {state?.data.map((user, key) => (
               <UserTableRow user={user} key={key} />
             ))}
           </tbody>

@@ -15,8 +15,8 @@ export const UserSchema = z.object({
   customClaims: z.object({
     permissions: z.record(z.boolean()),
     userMetadata: z.object({
-      partnerOrganizationId: z.string(),
-      partnerOrganizationName: z.string(),
+      partnerOrganizationId: z.string().optional(),
+      partnerOrganizationName: z.string().optional(),
       roleId: z.string(),
       roleName: z.string(),
     }),
@@ -40,8 +40,8 @@ export const CreateUserSchema = z
     displayName: z.string().min(1),
     email: z.string().email().min(1),
     phoneNumber: z.string().min(1),
-    partnerOrganizationId: z.string().min(1),
     roleId: z.string(),
+    roleName: z.string(),
   })
   .strict();
 

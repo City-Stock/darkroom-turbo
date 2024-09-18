@@ -18,6 +18,7 @@ type GetSearchParams = {
 export async function getUsers(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
 
+
   let users: UserRecord[] = [];
   let nextPage: string | null = null;
 
@@ -33,16 +34,16 @@ export async function getUsers(req: NextRequest) {
   }
 
   // Filter down the users
-  if (searchParams.has("email")) users = users.filter((user) => user.email?.toLowerCase().includes(searchParams.get("email")?.toLowerCase() as string));
+  if (searchParams.has("emailAddress")) users = users.filter((user) => user.email?.toLowerCase().includes(searchParams.get("emailAddress")?.toLowerCase() as string));
   if (searchParams.has("displayName"))
     users = users.filter((user) => user.displayName?.toLowerCase().includes(searchParams.get("displayName")?.toLowerCase() as string));
   if (searchParams.has("phone")) users = users.filter((user) => user.phoneNumber?.toLowerCase().includes(searchParams.get("phone")?.toLowerCase() as string));
 
   // Parse user data and return
   try {
-    const usersParsed = users.map((user) => UserSchema.parse(user));
+    // const usersParsed = users.map((user) => UserSchema.parse(user));
 
-    return NextResponse.json({ data: usersParsed, page: nextPage, erros: null }, { status: 200 });
+    return NextResponse.json({ data: users, page: nextPage, erros: null }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ data: [], errors: {message: "A user is not properly setup. Please fix"}, page: 0 }, { status: 500 });
   }

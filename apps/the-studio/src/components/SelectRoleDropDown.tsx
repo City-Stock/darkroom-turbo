@@ -1,5 +1,10 @@
 import { FC, useEffect } from "react";
-import { FieldError, UseFormRegisterReturn, useFormContext } from "react-hook-form";
+import {
+  FieldError,
+  UseFormRegisterReturn,
+  set,
+  useFormContext,
+} from "react-hook-form";
 import { useCollectionDataOnce } from "react-firebase-hooks/firestore";
 import { db } from "@/firebase/clientFirebaseInstance";
 import { collection } from "firebase/firestore";
@@ -13,7 +18,9 @@ type Props = {
 };
 
 const SelectRoleDropDown: FC<Props> = ({ label, placeHolder, fieldName }) => {
-  const [roles, dataLoading, dataError, dataShapshot] = useCollectionDataOnce(collection(db, "roles").withConverter(RoleConverter));
+  const [roles, dataLoading, dataError, dataShapshot] = useCollectionDataOnce(
+    collection(db, "roles").withConverter(RoleConverter)
+  );
   const {
     register,
     setValue,
@@ -32,7 +39,14 @@ const SelectRoleDropDown: FC<Props> = ({ label, placeHolder, fieldName }) => {
         <select
           disabled={!!dataError}
           className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-          {...register(fieldName)}
+          onChange={(e) => {
+            setValue(
+              "roleName",
+              roles?.find((role) => role.uid === e.target.value)?.name,
+              { shouldValidate: true }
+            );
+            setValue("roleId", e.target.value, { shouldValidate: true });
+          }}
         >
           <option key="placeholder-role" value="">
             {placeHolder}
@@ -44,7 +58,14 @@ const SelectRoleDropDown: FC<Props> = ({ label, placeHolder, fieldName }) => {
           ))}
         </select>
         <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
-          <svg className="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            className="fill-current"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <g opacity="0.8">
               <path
                 fillRule="evenodd"
@@ -56,7 +77,13 @@ const SelectRoleDropDown: FC<Props> = ({ label, placeHolder, fieldName }) => {
           </svg>
         </span>
       </div>
-      <ErrorMessage errors={errors} name={fieldName} render={({ message }) => <p className="text-sm text-danger pl-2">{message}</p>} />
+      <ErrorMessage
+        errors={errors}
+        name={fieldName}
+        render={({ message }) => (
+          <p className="text-sm text-danger pl-2">{message}</p>
+        )}
+      />
     </>
   );
 };

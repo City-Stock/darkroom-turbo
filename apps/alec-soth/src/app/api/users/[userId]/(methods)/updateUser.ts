@@ -38,7 +38,6 @@ export async function updateUser(req: NextRequest, context: Context) {
     !displayName ||
     !phoneNumber ||
     !email ||
-    !partnerOrganizationId ||
     !roleId
   )
     return NextResponse.json(
@@ -47,9 +46,7 @@ export async function updateUser(req: NextRequest, context: Context) {
     );
 
   let updatedUser: null | UserRecord = null;
-  console.log(displayName, phoneNumber, email, partnerOrganizationId);
 
-  if (partnerOrganizationId) {
     try {
       const user = await getAuth().getUser(userId);
 
@@ -58,6 +55,7 @@ export async function updateUser(req: NextRequest, context: Context) {
         userMetadata: {
           partnerOrganizationId,
           roleId,
+          roleName
         },
       });
     } catch (error: any) {
@@ -67,7 +65,6 @@ export async function updateUser(req: NextRequest, context: Context) {
         { status: 500 }
       );
     }
-  }
 
   if (displayName || phoneNumber || email) {
     try {
@@ -96,6 +93,9 @@ export async function updateUser(req: NextRequest, context: Context) {
       : "",
     roleId: updatedUser?.customClaims
       ? updatedUser?.customClaims.userMetadata.roleId
+      : "",
+      roleName: updatedUser?.customClaims
+      ? updatedUser?.customClaims.userMetadata.roleName
       : "",
   };
 

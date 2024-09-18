@@ -29,13 +29,7 @@ const CreateUserForm = () => {
     );
 
     const responseData = await response.json();
-    const validateDTO = createDtoSchema(UserSchema).safeParse(responseData);
 
-    if (!validateDTO.success) throw new Error(validateDTO.error.toString());
-    if (!response.ok && validateDTO.data.errors)
-      throw new Error(validateDTO.data.errors[0].message);
-
-    methods.reset();
     return responseData;
   };
 
