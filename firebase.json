@@ -37,6 +37,18 @@
       "predeploy": "dotenv -- npm run build --prefix firebase-functions/create-shopify-product"
     },
     {
+      "source": "firebase-functions/asset-sales",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "codebase": "asset-sales",
+      "predeploy": "dotenv -- npm run build --prefix firebase-functions/asset-sales"
+    },
+    {
       "source": "firebase-functions/create-dda-linkage",
       "ignore": [
         "node_modules",

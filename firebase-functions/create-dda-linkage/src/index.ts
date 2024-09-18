@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable require-jsdoc */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-len */
@@ -8,7 +9,8 @@ import poll from "./helpers/poll";
 admin.initializeApp();
 export const createDdaLinkage = onDocumentUpdated(
   {
-    document: "dev-assets/{assetId}",
+    document: "uploads/{assetId}",
+    memory: "512MiB",
   },
   async (event) => {
     if (!event.data || !event.data.after.exists) {
@@ -32,6 +34,7 @@ export const createDdaLinkage = onDocumentUpdated(
           const result = await req.json();
           return result;
         };
+
         const gid = data?.shopifyId.replace("gid://shopify/Product/", "");
         logger.info("DDA", {structuredData: true, gid, apiKey: process.env.DDA_API_KEY});
         const checkLinkResp = await fetchDda();
@@ -50,11 +53,11 @@ export const createDdaLinkage = onDocumentUpdated(
         logger.info("Product found! Uploading Asset to S3", {structuredData: true, data});
 
         const bucket = admin.storage().bucket(process.env.BUCKET_NAME);
-        const sourceFilePath = `sources/${data.sourceFileName}`;
+        const sourceFilePath = `uploads/${data.sourceFileName}`;
         const file = bucket.file(sourceFilePath);
         const [fileBuffer] = await file.download();
-        const mime = data.sourceFileName.split(".").pop();
         const baseUrl = process.env.DDA_API_URL;
+        const mime = data.sourceFileName.split(".").pop();
         const req = await fetch(
           `${baseUrl}/assets/signed`,
           {
@@ -74,45 +77,48 @@ export const createDdaLinkage = onDocumentUpdated(
         logger.info("Asset Uploaded to S3", {structuredData: true, urls: resp.urls, fileName: file.name, resp});
 
 
-        const partsArr = [];
-
-
+        let partsArr = [];
         for (const part of resp.urls) {
           const blob = fileBuffer.slice(part.start, part.end);
-          const resp = await fetch(part.url, {
-            method: "PUT",
-            body: blob,
-            headers: {},
-          });
-          const etag = resp?.headers?.get("etag")?.replace(/"/g, "");
-          partsArr.push({
-            ETag: etag,
-            PartNumber: part.part,
-          });
+          partsArr.push(
+            await fetch(part.url, {
+              method: "PUT",
+              body: blob,
+              headers: {
+                "Content-Type": "application/octet-stream",
+              },
+            }).then((resp) => {
+              const etag = resp?.headers?.get("etag")?.replace(/"/g, "");
+              return {
+                ETag: etag,
+                PartNumber: part.part,
+              };
+            })
+          );
         }
-
-        const parts = await Promise.all(partsArr);
-
         const url = `${baseUrl}/assets/${resp.id}/uploaded`;
 
-        logger.info("Updated Chunks", {structuredData: true, parts, url, upload_id: resp.upload_id});
 
-        const chunkReq = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${process.env.DDA_API_KEY}`,
-          },
-          body: JSON.stringify({
-            parts: parts,
-            upload_id: resp.upload_id,
-          }),
+        logger.info("Creating chunked assets in s3", {structuredData: true, url, upload_id: resp.upload_id});
+
+        Promise.all(partsArr).then((parts) => {
+          fetch(`${baseUrl}/assets/${resp.id}/uploaded`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${process.env.DDA_API_KEY}`,
+            },
+            body: JSON.stringify({
+              parts: parts,
+              upload_id: resp.upload_id,
+            }),
+          });
         });
-        const chunkResp = await chunkReq.json();
-        logger.info("Created Chunks", {structuredData: true, data: chunkResp});
+
+        logger.info("Updated assets with etag and part number", {structuredData: true, data});
 
 
-        const findProductReq = await fetch(`${baseUrl}/products?product_id=${data.shopifyId}&with_assets=true`, {
+        const findProductReq = await fetch(`${baseUrl}/products?product_id=${gid}&with_assets=true`, {
           headers: {
             "Authorization": `Bearer ${process.env.DDA_API_KEY}`,
             "Content-Type": "application/json",
@@ -123,7 +129,6 @@ export const createDdaLinkage = onDocumentUpdated(
         const productIdsToLink = productsResp.data.map((product: any) => product.id);
 
         logger.info("Products found", {structuredData: true, data: productsResp, productIdsToLink});
-
 
         const linkProductsReq = await fetch(`${baseUrl}/assets/${resp.id}/attach`, {
           method: "POST",
@@ -137,7 +142,7 @@ export const createDdaLinkage = onDocumentUpdated(
         });
 
         logger.info("DDA Linked product created", {structuredData: true, data: linkProductsReq});
-        await event.data.after.ref.set({isDda: true}, {merge: true});
+        await event.data.after.ref.set({isDda: true, ddaProductIds: productIdsToLink, ddaAssetId: resp?.id}, {merge: true});
       } catch (error) {
         logger.error("Error Creating Linkage", {structuredData: true, error});
       }

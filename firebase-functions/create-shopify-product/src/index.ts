@@ -2,12 +2,15 @@
 import {onDocumentUpdated} from "firebase-functions/v2/firestore";
 import * as logger from "firebase-functions/logger";
 import * as admin from "firebase-admin";
+import axios from "axios";
+import {uploadVideoToShopify} from "./helpers/uploadVideoToShopify";
+import {createVideoShopifyProduct} from "./helpers/createVideoShopifyProduct";
 admin.initializeApp();
 
 
 export const createShopifyProduct = onDocumentUpdated(
   {
-    document: "dev-assets/{assetId}",
+    document: "uploads/{assetId}",
   },
   async (event) => {
     if (!event.data || !event.data.after.exists) {
@@ -17,13 +20,13 @@ export const createShopifyProduct = onDocumentUpdated(
 
     const data = event.data.after.data();
 
-    if (data.isWatermarked && !data.isShopify) {
+    if (data.isWatermarked && !data.isShopify && data.sourceFileType.includes("image")) {
       logger.info("Creating Shopify Product", {structuredData: true, data});
 
       try {
         const payload = {
           product: {
-            title: data?.title,
+            title: data?.productName,
             body_html: "<strong></strong>",
             vendor: "CityStock",
             product_type: data?.sourceFileType === "image" ? "Image - City" : "Video - City",
@@ -76,6 +79,40 @@ export const createShopifyProduct = onDocumentUpdated(
 
         logger.info("Shopify product created", {structuredData: true, data: shopifyProductGID, publishId});
         await event.data.after.ref.set({isShopify: true, shopifyId: publishId}, {merge: true});
+      } catch (error) {
+        logger.error("Error creating shopify product", {structuredData: true, error});
+      }
+    }
+    if (data.isWatermarked && !data.isShopify && data.sourceFileType.includes("video")) {
+      logger.info("Creating Shopify Product", {structuredData: true, data});
+      try {
+        const response = await axios.get(data.publicWatermarkedUrl, {
+          responseType: "stream",
+        });
+
+
+        logger.info("Uploading Video to shopify", {structuredData: true});
+
+        const fileSize = parseInt(response.headers["content-length"], 10);
+        const mimeType = response.headers["content-type"];
+        const testUrl = await uploadVideoToShopify({
+          contentLength: fileSize,
+          contentType: mimeType,
+          filename: data?.sourceFileName,
+          readableStream: response.data,
+        });
+
+        logger.info("Creating Shopify Product", {structuredData: true, testUrl});
+
+        const publishResponse = await createVideoShopifyProduct({
+          shopifyExternalVideoUrl: testUrl,
+          vendor: "CityStock",
+          title: data?.productName,
+          tags: data?.tags,
+          uniqueId: "123456",
+        });
+        logger.info("Shopify product created", {structuredData: true, publishResponse});
+        await event.data.after.ref.set({isShopify: true, shopifyId: publishResponse.data.productCreate.product.id}, {merge: true});
       } catch (error) {
         logger.error("Error creating shopify product", {structuredData: true, error});
       }
