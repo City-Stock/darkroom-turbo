@@ -7,6 +7,7 @@ import * as logger from "firebase-functions/logger";
 import * as admin from "firebase-admin";
 import poll from "./helpers/poll";
 admin.initializeApp();
+
 export const createDdaLinkage = onDocumentUpdated(
   {
     document: "uploads/{assetId}",
